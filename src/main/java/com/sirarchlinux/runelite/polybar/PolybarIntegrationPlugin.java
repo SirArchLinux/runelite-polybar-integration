@@ -4,7 +4,10 @@ import com.google.inject.Provides;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.Player;
+import net.runelite.api.events.AnimationChanged;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 
@@ -15,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static net.runelite.api.AnimationID.*;
 
 @Slf4j
 @PluginDescriptor(
@@ -43,6 +48,43 @@ public class PolybarIntegrationPlugin extends Plugin {
     protected void shutDown() {
         writeState(State.IDLE);
         notifyPolybar();
+    }
+
+    @Subscribe
+    public void onAnimationChanged(final AnimationChanged event) {
+        Player localPlayer = client.getLocalPlayer();
+
+        if (localPlayer == null || event.getActor() != localPlayer) {
+            return;
+        }
+
+        int animation = localPlayer.getAnimation();
+
+        State newState;
+        switch (animation) {
+            case WOODCUTTING_BRONZE:
+            case WOODCUTTING_IRON:
+            case WOODCUTTING_STEEL:
+            case WOODCUTTING_BLACK:
+            case WOODCUTTING_MITHRIL:
+            case WOODCUTTING_ADAMANT:
+            case WOODCUTTING_RUNE:
+            case WOODCUTTING_DRAGON:
+            case WOODCUTTING_INFERNAL:
+            case WOODCUTTING_3A_AXE:
+            case WOODCUTTING_CRYSTAL:
+                newState = State.WCING;
+                break;
+            default:
+                newState = State.IDLE;
+                break;
+        }
+
+        if (globalState != newState) {
+            globalState = newState;
+            writeState(newState);
+            notifyPolybar();
+        }
     }
 
     private void writeState(State state) {
