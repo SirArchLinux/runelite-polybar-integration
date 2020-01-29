@@ -101,8 +101,8 @@ public class PolybarIntegrationPlugin extends Plugin {
         final List<String> commands = new ArrayList<>();
         commands.add("polybar-msg");
         commands.add("hook");
-        commands.add("runelite");
-        commands.add("1");
+        commands.add(config.module());
+        commands.add(String.valueOf(config.hook()));
         executorService.submit(() ->
         {
             try {
