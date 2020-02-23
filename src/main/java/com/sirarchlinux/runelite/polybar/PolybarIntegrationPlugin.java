@@ -61,23 +61,27 @@ public class PolybarIntegrationPlugin extends Plugin {
         int animation = localPlayer.getAnimation();
 
         State newState;
-        switch (animation) {
-            case WOODCUTTING_BRONZE:
-            case WOODCUTTING_IRON:
-            case WOODCUTTING_STEEL:
-            case WOODCUTTING_BLACK:
-            case WOODCUTTING_MITHRIL:
-            case WOODCUTTING_ADAMANT:
-            case WOODCUTTING_RUNE:
-            case WOODCUTTING_DRAGON:
-            case WOODCUTTING_INFERNAL:
-            case WOODCUTTING_3A_AXE:
-            case WOODCUTTING_CRYSTAL:
-                newState = State.WCING;
-                break;
-            default:
-                newState = State.IDLE;
-                break;
+        if (config.isIdleOnly()) {
+            newState = animation == IDLE ? State.IDLE : State.ANY;
+        } else {
+            switch (animation) {
+                case WOODCUTTING_BRONZE:
+                case WOODCUTTING_IRON:
+                case WOODCUTTING_STEEL:
+                case WOODCUTTING_BLACK:
+                case WOODCUTTING_MITHRIL:
+                case WOODCUTTING_ADAMANT:
+                case WOODCUTTING_RUNE:
+                case WOODCUTTING_DRAGON:
+                case WOODCUTTING_INFERNAL:
+                case WOODCUTTING_3A_AXE:
+                case WOODCUTTING_CRYSTAL:
+                    newState = State.WCING;
+                    break;
+                default:
+                    newState = State.IDLE;
+                    break;
+            }
         }
 
         if (globalState != newState) {

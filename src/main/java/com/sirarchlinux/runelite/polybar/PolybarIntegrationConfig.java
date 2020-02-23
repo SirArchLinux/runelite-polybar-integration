@@ -26,4 +26,13 @@ public interface PolybarIntegrationConfig extends Config {
     default int hook() {
         return 1;
     }
+
+    @ConfigItem(
+            keyName = "idle_only",
+            name = "Idle only",
+            description = "Only differs between idling and not idling"
+    )
+    default boolean isIdleOnly() {
+        return false;
+    }
 }
