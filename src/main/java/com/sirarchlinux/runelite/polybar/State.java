@@ -5,6 +5,7 @@ import lombok.Getter;
 @SuppressWarnings("SpellCheckingInspection")
 public enum State {
     IDLE("Wasting XP"),
+    ANY("Grinding"),
     WCING("Woodcutting"),
     MINING("Mining"),
     ALCH("Alching"),
