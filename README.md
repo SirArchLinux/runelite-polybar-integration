@@ -12,7 +12,7 @@ Tells your systems [Polybar](https://github.com/polybar/polybar) some informatio
     initial = 1
 
 ## How it works
-The plugin makes use of [Polybars IPC feature](https://github.com/polybar/polybar/wiki/Module:-ipc). Every implemented game state (only woodcutting and idling so far) is written out to the file `/tmp/rl_state`. Using polybar-msg, every instance of Polybar will then be triggered to execute hook 1, which should be configured appropiately to read `/tmp/rl_state` (see example config)
+The plugin makes use of [Polybars IPC feature](https://github.com/polybar/polybar/wiki/Module:-ipc). Every implemented game state is written out to the file `/tmp/rl_state`. Using polybar-msg, every instance of Polybar will then be triggered to execute the customizable hook, which should be configured appropiately to read `/tmp/rl_state` (see example config)
 
 ## See
 https://github.com/polybar/polybar  
